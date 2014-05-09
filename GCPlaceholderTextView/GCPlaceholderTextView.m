@@ -8,7 +8,7 @@
 
 #import "GCPlaceholderTextView.h"
 
-@interface GCPlaceholderTextView () 
+@interface GCPlaceholderTextView ()
 
 @property (nonatomic, retain) UIColor* realTextColor;
 @property (nonatomic, readonly) NSString* realText;
@@ -37,6 +37,7 @@
 - (void)awakeFromNib {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(endEditing:) name:UITextViewTextDidEndEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChange:) name:UITextViewTextDidChangeNotification object:self];
     
     self.realTextColor = [UIColor blackColor];
     self.placeholderColor = [UIColor lightGrayColor];
@@ -96,10 +97,14 @@
     }
 }
 
+- (void) didChange:(NSNotification*) notification {
+    self.selectedRange = NSMakeRange(self.text.length - 1, 0);
+}
+
 - (void) setTextColor:(UIColor *)textColor {
     if ([self.realText isEqualToString:self.placeholder]) {
         if ([textColor isEqual:self.placeholderColor]){
-             [super setTextColor:textColor];
+            [super setTextColor:textColor];
         } else {
             self.realTextColor = textColor;
         }
