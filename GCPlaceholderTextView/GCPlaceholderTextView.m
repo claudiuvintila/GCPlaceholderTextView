@@ -98,7 +98,7 @@
 }
 
 - (void) didChange:(NSNotification*) notification {
-    self.selectedRange = NSMakeRange(self.text.length - 1, 0);
+    self.selectedRange = NSMakeRange(self.text.length, 0);
 }
 
 - (void) setTextColor:(UIColor *)textColor {
